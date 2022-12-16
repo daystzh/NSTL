@@ -31,6 +31,12 @@ class vector {
     resize(num);
   }
 
+  void shrink_to_fit() {
+    if (cap_ > size_) {
+      resize(size_);
+    }
+  }
+
   void push_back(T &&val) {
     if (size_ == cap_) {
       resize();
@@ -46,7 +52,7 @@ class vector {
     construct_at_end(std::forward<val_type>(val));
     size_++;
   }
-  size_t size() { return size_; }
+  size_t size() const { return size_; }
 
   size_t capacity() { return cap_; }
 
@@ -79,6 +85,23 @@ class vector {
   vector() : size_(0), cap_(0) {}
 
   T &operator[](size_t index) { return data_[index]; }
+
+  const T &operator[](size_t index) const { return data_[index]; }
+
+  bool operator==(const vector &other) {
+    if (size_ != other.size()) {
+      return false;
+    }
+
+    for (size_t i = 0; i < size_; i++) {
+      if (!(data_[i] == other[i])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  bool operator!=(const vector &other) { return !this->operator==(other); }
 
  private:
   void resize() {

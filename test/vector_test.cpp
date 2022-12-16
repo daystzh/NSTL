@@ -3,8 +3,6 @@
 //
 
 #include "collections/vector.h"
-// #include <iostream>
-#include <exception>
 #include "gtest/gtest.h"
 #include "simple_test_class.h"
 
@@ -114,4 +112,41 @@ TEST(VectorTest, AtFunctionOutOfRange) {
   } catch (std::out_of_range &e) {
     EXPECT_STREQ(e.what(), "vector");
   }
+}
+
+TEST(VectorTest, ShrinkToFit) {
+  vector_t<int> vec;
+  int i;
+  for (i = 0; i < 10; i++) {
+    vec.push_back(i);
+    if (vec.size() < vec.capacity()) {
+      break;
+    }
+  }
+  EXPECT_GT(vec.capacity(), vec.size());
+  vec.shrink_to_fit();
+  EXPECT_EQ(vec.size(), i + 1);
+  EXPECT_EQ(vec.capacity(), vec.size());
+}
+
+TEST(VectorTest, EqualOperator) {
+  vector_t<int> vec1;
+  vector_t<int> vec2;
+  EXPECT_TRUE(vec1 == vec2);
+  EXPECT_FALSE(vec1 != vec2);
+  for (size_t i = 0; i < 10; i++) {
+    vec1.push_back(i);
+    vec2.push_back(i);
+  }
+  EXPECT_TRUE(vec1 == vec2);
+  vec1.reserve(vec1.size());
+  EXPECT_TRUE(vec1 == vec2);
+  vec1.pop_back();
+  EXPECT_FALSE(vec1 == vec2);
+  EXPECT_TRUE(vec1 != vec2);
+
+  vec2.pop_back();
+  EXPECT_TRUE(vec1 == vec2);
+  vec1[0] = 1;
+  EXPECT_FALSE(vec1 == vec2);
 }
