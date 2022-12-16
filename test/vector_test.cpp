@@ -3,11 +3,29 @@
 //
 
 #include "collections/vector.h"
-#include <iostream>
+// #include <iostream>
 #include "gtest/gtest.h"
+#include "simple_test_class.h"
 
-TEST(vectorTest, testSquareBrackets) {
-  nstd::vector<int> vec(10, 0);
+// #define USE_STL_ 1
+#ifdef USE_STL_
+template <typename T>
+using vector_t = std::vector<T>;
+#else
+template <typename T>
+using vector_t = nstd::vector<T>;
+#endif
+TEST(VectorTest, Basic) {
+  vector_t<int> vec(10, 0);
+  EXPECT_EQ(vec.size(), 10);
+  EXPECT_GE(vec.capacity(), vec.size());
+  for (int i = 0; i < 10; i++) {
+    EXPECT_EQ(vec[i], 0);
+  }
+}
+
+TEST(VectorTest, SubscriptOperation) {
+  vector_t<int> vec(10, 0);
   for (int i = 0; i < 10; i++) {
     vec[i] = i;
   }
@@ -16,22 +34,23 @@ TEST(vectorTest, testSquareBrackets) {
   }
 }
 
-TEST(vectorTest, testPushBack) {
-  nstd::vector<int> vec;
+TEST(VectorTest, PushBackInt) {
+  vector_t<int> vec;
   for (int i = 0; i < 10; i++) {
     vec.push_back(i);
+    EXPECT_GE(vec.capacity(), vec.size());
   }
   EXPECT_EQ(vec.size(), 10);
-  EXPECT_EQ(vec.cap(), 16);
   for (int i = 0; i < 10; i++) {
     EXPECT_EQ(vec[i], i);
   }
 }
 
-TEST(vectorTest, testPopBack) {
-  nstd::vector<int> vec;
+TEST(VectorTest, PopBackInt) {
+  vector_t<int> vec;
   for (int i = 0; i < 10; i++) {
     vec.push_back(i);
+    EXPECT_GE(vec.capacity(), vec.size());
   }
   EXPECT_EQ(vec.size(), 10);
   for (int i = 0; i < 5; i++) {
@@ -44,18 +63,32 @@ TEST(vectorTest, testPopBack) {
   }
 }
 
-TEST(vectorTest, test_class) {
-  nstd::vector<int> vec;
+TEST(VectorTest, EmplaceBackOperation) {
+  vector_t<A> vec;
   for (int i = 0; i < 10; i++) {
-    vec.push_back(i);
+    vec.emplace_back(i);
+    EXPECT_GE(vec.capacity(), vec.size());
   }
   EXPECT_EQ(vec.size(), 10);
   for (int i = 0; i < 5; i++) {
     vec.pop_back();
-    EXPECT_EQ(vec.size(), 10 - i - 1);
+    EXPECT_EQ(vec.size(), 9 - i);
   }
 
   for (int i = 0; i < 5; i++) {
-    EXPECT_EQ(vec[i], i);
+    EXPECT_EQ(vec[i].get_x(), i);
   }
+}
+
+TEST(VectorTest, ReserveFunction) {
+  //  nstd::vector<A> vec;
+  vector_t<A> vec;
+  vec.reserve(0);
+  EXPECT_EQ(vec.capacity(), 0);
+  vec.reserve(10);
+  EXPECT_EQ(vec.capacity(), 10);
+  vec.reserve(7);
+  EXPECT_EQ(vec.capacity(), 10);
+  vec.reserve(11);
+  EXPECT_EQ(vec.capacity(), 11);
 }

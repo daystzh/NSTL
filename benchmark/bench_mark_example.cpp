@@ -57,4 +57,4 @@ BENCHMARK(bench_array_at);
 // }
 // BENCHMARK(bench_array_get);
 
-// BENCHMARK_MAIN();
+BENCHMARK_MAIN();
