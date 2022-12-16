@@ -5,6 +5,7 @@
 #ifndef TINYSTL_VECTOR_H
 #define TINYSTL_VECTOR_H
 #include <cstddef>
+#include <exception>
 #include <memory>
 namespace nstd {
 template <typename T, typename Allocate = std::allocator<T> >
@@ -48,6 +49,13 @@ class vector {
   size_t size() { return size_; }
 
   size_t capacity() { return cap_; }
+
+  T &at(size_t index) {
+    if (index >= size_) {
+      throw std::out_of_range("vector");
+    }
+    return data_[index];
+  }
 
   void pop_back() {
     size_--;

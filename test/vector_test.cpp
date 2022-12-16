@@ -4,6 +4,7 @@
 
 #include "collections/vector.h"
 // #include <iostream>
+#include <exception>
 #include "gtest/gtest.h"
 #include "simple_test_class.h"
 
@@ -15,6 +16,7 @@ using vector_t = std::vector<T>;
 template <typename T>
 using vector_t = nstd::vector<T>;
 #endif
+
 TEST(VectorTest, Basic) {
   vector_t<int> vec(10, 0);
   EXPECT_EQ(vec.size(), 10);
@@ -91,4 +93,25 @@ TEST(VectorTest, ReserveFunction) {
   EXPECT_EQ(vec.capacity(), 10);
   vec.reserve(11);
   EXPECT_EQ(vec.capacity(), 11);
+}
+
+TEST(VectorTest, AtFunction) {
+  //  nstd::vector<A> vec;
+  vector_t<int> vec(10, 0);
+  for (int i = 0; i < 10; i++) {
+    EXPECT_EQ(vec.at(i), 0);
+    vec.at(i) = i;
+    EXPECT_EQ(vec.at(i), i);
+  }
+}
+
+TEST(VectorTest, AtFunctionOutOfRange) {
+  //  nstd::vector<A> vec;
+  vector_t<int> vec(10, 0);
+
+  try {
+    vec.at(10);
+  } catch (std::out_of_range &e) {
+    EXPECT_STREQ(e.what(), "vector");
+  }
 }
