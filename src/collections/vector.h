@@ -11,7 +11,7 @@ namespace nstd {
 template <typename T, typename Allocate = std::allocator<T> >
 class vector {
  private:
-  T *data_;
+  T *data_ = nullptr;
   size_t size_;
   size_t cap_;
   Allocate allocator_;
@@ -72,7 +72,9 @@ class vector {
     for (size_t i = 0; i < size_; i++) {
       data_[i].~T();
     }
-    allocator_.deallocate(data_, cap_);
+    if (cap_ > 0) {
+      allocator_.deallocate(data_, cap_);
+    }
   }
 
   explicit vector(size_t size, T &&val) : size_(size), cap_(size) {
@@ -102,6 +104,13 @@ class vector {
   }
 
   bool operator!=(const vector &other) { return !this->operator==(other); }
+
+  size_t max_size() {
+    //      return 100;
+    return size_t(-1) / sizeof(T);
+  }
+
+  bool empty() { return size_ == 0; }
 
  private:
   void resize() {

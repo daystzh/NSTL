@@ -16,7 +16,11 @@ using vector_t = nstd::vector<T>;
 #endif
 
 TEST(VectorTest, Basic) {
+  vector_t<int> empty_vec;
+  EXPECT_TRUE(empty_vec.empty());
+
   vector_t<int> vec(10, 0);
+  EXPECT_FALSE(vec.empty());
   EXPECT_EQ(vec.size(), 10);
   EXPECT_GE(vec.capacity(), vec.size());
   for (int i = 0; i < 10; i++) {
@@ -132,6 +136,7 @@ TEST(VectorTest, ShrinkToFit) {
 TEST(VectorTest, EqualOperator) {
   vector_t<int> vec1;
   vector_t<int> vec2;
+  //  std::cout << vec1.max_size() << std::endl;
   EXPECT_TRUE(vec1 == vec2);
   EXPECT_FALSE(vec1 != vec2);
   for (size_t i = 0; i < 10; i++) {
@@ -149,4 +154,10 @@ TEST(VectorTest, EqualOperator) {
   EXPECT_TRUE(vec1 == vec2);
   vec1[0] = 1;
   EXPECT_FALSE(vec1 == vec2);
+}
+
+TEST(VectorTest, GetMaxSize) {
+  std::vector<int> vec1;
+  nstd::vector<int> vec2;
+  EXPECT_TRUE(vec1.max_size() == vec2.max_size());
 }
