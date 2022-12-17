@@ -10,11 +10,13 @@ class A {
   A(int x) : x_(x) {
     //    std::cout << "A construct x:" << x_ << std::endl;
   }
+  A(int x, int y) : x_(x), y_(y) {}
   ~A() {
     //    std::cout << "A deconstruct x:" << x_ << std::endl;
   }
   void set_x(int x) { x_ = x; }
   int get_x() { return x_; }
+  int get_y() { return y_; }
   A(A &&) = default;
   A &operator=(A &&) = default;
 
@@ -23,5 +25,6 @@ class A {
 
  private:
   int x_;
+  int y_ = 0;
 };
 #endif  // TINYSTL_SIMPLE_TEST_CLASS_H

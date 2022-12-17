@@ -46,12 +46,12 @@ class vector {
     data_[size_++] = std::move(val);
   }
 
-  template <class val_type>
-  void emplace_back(val_type &&val) {
+  template <class... args>
+  void emplace_back(args &&...val) {
     if (size_ == cap_) {
       resize();
     }
-    construct_at_end(std::forward<val_type>(val));
+    construct_at_end(std::forward<args>(val)...);
     size_++;
   }
   size_t size() const { return size_; }
@@ -112,9 +112,6 @@ class vector {
   bool operator!=(const vector &other) { return !this->operator==(other); }
 
   void swap(vector &other) {
-    //    swap(data_, other.data_);
-    //    swap(size_, other.size_);
-    //    swap(cap_, other.cap_);
     using nstd::swap;
     swap(data_, other.data_);
     swap(size_, other.size_);
@@ -149,9 +146,9 @@ class vector {
     data_ = tmp;
   }
 
-  template <class val_type>
-  void construct_at_end(val_type &&val) {
-    new (data_ + size_) T(std::forward<val_type>(val));
+  template <class... args>
+  void construct_at_end(args &&...val) {
+    new (data_ + size_) T(std::forward<args>(val)...);
   }
 };
 }  // namespace nstd

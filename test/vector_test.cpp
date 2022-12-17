@@ -81,6 +81,26 @@ TEST(VectorTest, EmplaceBackOperation) {
   for (int i = 0; i < 5; i++) {
     EXPECT_EQ(vec[i].get_x(), i);
   }
+
+  for (int i = 0; i < 5; i++) {
+    vec.pop_back();
+  }
+
+  for (int i = 0; i < 10; i++) {
+    vec.emplace_back(i, 2 * i);
+    EXPECT_GE(vec.capacity(), vec.size());
+  }
+
+  EXPECT_EQ(vec.size(), 10);
+  for (int i = 0; i < 5; i++) {
+    vec.pop_back();
+    EXPECT_EQ(vec.size(), 9 - i);
+  }
+
+  for (int i = 0; i < 5; i++) {
+    EXPECT_EQ(vec[i].get_x(), i);
+    EXPECT_EQ(vec[i].get_y(), i * 2);
+  }
 }
 
 TEST(VectorTest, ReserveFunction) {
