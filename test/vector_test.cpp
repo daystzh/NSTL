@@ -26,16 +26,15 @@ TEST(VectorTest, Basic) {
   for (int i = 0; i < 10; i++) {
     EXPECT_EQ(vec[i], 0);
   }
-}
+  for (int i = 0; i < 10; i++) {
+    vec[i] = i + 1;
+  }
 
-TEST(VectorTest, SubscriptOperation) {
-  vector_t<int> vec(10, 0);
   for (int i = 0; i < 10; i++) {
-    vec[i] = i;
+    EXPECT_EQ(vec[i], i + 1);
   }
-  for (int i = 0; i < 10; i++) {
-    EXPECT_EQ(vec[i], i);
-  }
+  EXPECT_EQ(vec.front(), 1);
+  EXPECT_EQ(vec.back(), 10);
 }
 
 TEST(VectorTest, PushBackInt) {

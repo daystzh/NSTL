@@ -103,6 +103,10 @@ class vector {
     return true;
   }
 
+  T &back() { return data_[size_ - 1]; }
+
+  T &front() { return data_[0]; }
+
   bool operator!=(const vector &other) { return !this->operator==(other); }
 
   size_t max_size() {
