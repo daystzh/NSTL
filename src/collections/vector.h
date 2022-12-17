@@ -7,6 +7,8 @@
 #include <cstddef>
 #include <exception>
 #include <memory>
+#include "../algorithm.h"
+
 namespace nstd {
 template <typename T, typename Allocate = std::allocator<T> >
 class vector {
@@ -108,6 +110,16 @@ class vector {
   T &front() { return data_[0]; }
 
   bool operator!=(const vector &other) { return !this->operator==(other); }
+
+  void swap(vector &other) {
+    //    swap(data_, other.data_);
+    //    swap(size_, other.size_);
+    //    swap(cap_, other.cap_);
+    using nstd::swap;
+    swap(data_, other.data_);
+    swap(size_, other.size_);
+    swap(cap_, other.cap_);
+  }
 
   size_t max_size() {
     //      return 100;

@@ -160,3 +160,26 @@ TEST(VectorTest, GetMaxSize) {
   nstd::vector<int> vec2;
   EXPECT_TRUE(vec1.max_size() == vec2.max_size());
 }
+
+TEST(VectorTest, SwapFunction) {
+  vector_t<int> vec1(10, 1);
+  vector_t<int> vec2(5, 2);
+  EXPECT_EQ(vec1.size(), 10);
+  for (int i = 0; i < vec1.size(); i++) {
+    EXPECT_EQ(vec1[i], 1);
+  }
+  EXPECT_EQ(vec2.size(), 5);
+  for (int i = 0; i < vec2.size(); i++) {
+    EXPECT_EQ(vec2[i], 2);
+  }
+  vec1.swap(vec2);
+
+  EXPECT_EQ(vec1.size(), 5);
+  for (int i = 0; i < vec1.size(); i++) {
+    EXPECT_EQ(vec1[i], 2);
+  }
+  EXPECT_EQ(vec2.size(), 10);
+  for (int i = 0; i < vec2.size(); i++) {
+    EXPECT_EQ(vec2[i], 1);
+  }
+}
