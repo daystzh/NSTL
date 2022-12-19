@@ -71,6 +71,25 @@ class vector {
     return true;
   }
 
+  vector &operator=(vector &&other) {
+    size_ = other.size_;
+    cap_ = other.cap_;
+    data_ = other.data_;
+    other.data_ = nullptr;
+    other.~vector();
+    return this;
+  }
+
+  vector &operator=(const vector &other) {
+    size_ = other.size_;
+    cap_ = other.cap_;
+    data_ = allocator_.allocate(cap_);
+    for (int i = 0; i < size_; i++) {
+      data_[i] = other[i];
+    }
+    return this;
+  }
+
   T &back() { return data_[size_ - 1]; }
 
   T &front() { return data_[0]; }
