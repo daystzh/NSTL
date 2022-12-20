@@ -110,10 +110,12 @@ TEST(VectorTest, PopBackInt) {
 TEST(VectorTest, IteratorTest) {
   vector_t<int> vec(10, 1);
   vector_t<int>::Iterator iter = vec.begin();
-  //  while (iter != vec.end()) {
-  //    EXPECT_EQ(iter.operator*(), 1);
-  //    iter.operator++();
-  //  }
+  iter.print();
+  while (iter != vec.end()) {
+    EXPECT_EQ(*iter, 1);
+    //    iter.operator++();
+    iter++;
+  }
 }
 
 TEST(VectorTest, EmplaceBackOperation) {
