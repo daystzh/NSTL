@@ -7,8 +7,9 @@
 #include <cstddef>
 #include <exception>
 #include <memory>
-#include "../algorithm.h"
-
+#include "algorithm/algorithm.h"
+#include "algorithm/iterator.h"
+#include "vector"
 namespace nstd {
 template <typename T, typename Allocate = std::allocator<T> >
 class vector {
@@ -17,8 +18,11 @@ class vector {
   size_t size_;
   size_t cap_;
   Allocate allocator_;
+  //  using std::random_access_iterator_tag;
 
  public:
+  using Iterator = nstd::iterator<vector, T>;
+
   explicit vector(size_t size, T &&val) : size_(size), cap_(size) {
     data_ = new T[cap_];
     for (size_t i = 0; i < size_; i++) {
@@ -54,6 +58,17 @@ class vector {
     }
   }
 
+  Iterator begin() {
+    //    std::vector<int>::iterator iter;
+    Iterator ret(this);
+    return ret;
+  }
+
+  Iterator end() {
+    Iterator endIterator(this, size_);
+    return endIterator;
+  }
+
   T &operator[](size_t index) { return data_[index]; }
 
   const T &operator[](size_t index) const { return data_[index]; }
@@ -71,23 +86,24 @@ class vector {
     return true;
   }
 
-  vector &operator=(vector &&other) {
+  vector &operator=(vector &&other) noexcept {
     size_ = other.size_;
     cap_ = other.cap_;
     data_ = other.data_;
     other.data_ = nullptr;
     other.~vector();
-    return this;
+    return *this;
   }
 
   vector &operator=(const vector &other) {
+    if (this == &other) return *this;
     size_ = other.size_;
     cap_ = other.cap_;
     data_ = allocator_.allocate(cap_);
     for (int i = 0; i < size_; i++) {
       data_[i] = other[i];
     }
-    return this;
+    return *this;
   }
 
   T &back() { return data_[size_ - 1]; }

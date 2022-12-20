@@ -37,6 +37,47 @@ TEST(VectorTest, Basic) {
   EXPECT_EQ(vec.back(), 10);
 }
 
+TEST(VectorTest, moveConstruct) {
+  vector_t<int> vec(vector_t<int>(10, 2));
+  EXPECT_EQ(vec.size(), 10);
+  for (int i = 0; i < vec.size(); i++) {
+    EXPECT_EQ(vec[i], 2);
+  }
+}
+
+TEST(VectorTest, moveOperator) {
+  vector_t<int> vec;
+  vec = (vector_t<int>(10, 2));
+  EXPECT_EQ(vec.size(), 10);
+  for (int i = 0; i < vec.size(); i++) {
+    EXPECT_EQ(vec[i], 2);
+  }
+}
+
+TEST(VectorTest, copyConstruct) {
+  vector_t<int> tmp(10, 2);
+  vector_t<int> vec(tmp);
+  EXPECT_EQ(vec.size(), 10);
+  for (int i = 0; i < vec.size(); i++) {
+    EXPECT_EQ(vec[i], 2);
+  }
+}
+
+TEST(VectorTest, copyOperator) {
+  vector_t<int> tmp(10, 2);
+  vector_t<int> vec;
+  vec = tmp;
+  EXPECT_EQ(vec.size(), 10);
+  for (int i = 0; i < vec.size(); i++) {
+    EXPECT_EQ(vec[i], 2);
+  }
+  vec = vec;
+  EXPECT_EQ(vec.size(), 10);
+  for (int i = 0; i < vec.size(); i++) {
+    EXPECT_EQ(vec[i], 2);
+  }
+}
+
 TEST(VectorTest, PushBackInt) {
   vector_t<int> vec;
   for (int i = 0; i < 10; i++) {
@@ -64,6 +105,15 @@ TEST(VectorTest, PopBackInt) {
   for (int i = 0; i < 5; i++) {
     EXPECT_EQ(vec[i], i);
   }
+}
+
+TEST(VectorTest, IteratorTest) {
+  vector_t<int> vec(10, 1);
+  vector_t<int>::Iterator iter = vec.begin();
+  //  while (iter != vec.end()) {
+  //    EXPECT_EQ(iter.operator*(), 1);
+  //    iter.operator++();
+  //  }
 }
 
 TEST(VectorTest, EmplaceBackOperation) {
