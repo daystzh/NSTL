@@ -255,3 +255,33 @@ TEST(VectorTest, SwapFunction) {
     EXPECT_EQ(vec2[i], 1);
   }
 }
+
+TEST(VectorTest, reaverse) {
+  vector_t<int> vec1;
+  for (size_t i = 0; i < 20; i++) {
+    vec1.emplace_back(i + 1);
+  }
+  EXPECT_EQ(vec1.size(), 20);
+  for (size_t i = 0; i < 20; i++) {
+    EXPECT_EQ(vec1[i], i + 1);
+  }
+  vec1.reverse();
+  EXPECT_EQ(vec1.size(), 20);
+  for (size_t i = 0; i < 20; i++) {
+    EXPECT_EQ(vec1[i], 20 - i);
+  }
+
+  vector_t<A> vec2;
+  for (size_t i = 0; i < 20; i++) {
+    vec2.emplace_back(i + 1);
+  }
+  EXPECT_EQ(vec2.size(), 20);
+  for (size_t i = 0; i < 20; i++) {
+    EXPECT_EQ(vec2[i], A(i + 1));
+  }
+  vec2.reverse();
+  EXPECT_EQ(vec2.size(), 20);
+  for (size_t i = 0; i < 20; i++) {
+    EXPECT_EQ(vec2[i], A(20 - i));
+  }
+}

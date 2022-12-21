@@ -22,6 +22,7 @@ class A {
 
   A(const A &) = default;
   A &operator=(const A &) = default;
+  bool operator==(const A &other) const { return x_ == other.x_ && y_ == other.y_; }
 
  private:
   int x_;

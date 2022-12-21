@@ -58,6 +58,14 @@ class vector {
     }
   }
 
+  void reverse() {
+    size_t left = 0, right = size_ - 1;
+    while (left < right) {
+      nstd::swap(data_[left], data_[right]);
+      left++;
+      right--;
+    }
+  }
   Iterator begin() {
     //    std::vector<int>::iterator iter;
     Iterator ret(this);
