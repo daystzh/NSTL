@@ -9,13 +9,30 @@
 namespace nstd {
 class string {
  public:
-  explicit string(const char *str) {
+  string(const char *str = "") {
     size_ = strlen(str);
     cap_ = size_ + 1;
     data_ = new char[cap_];
     memcpy(data_, str, size_);
     data_[size_] = 0;
   }
+
+  string(const string &str) {
+    size_ = str.size_;
+    cap_ = str.cap_;
+    data_ = new char[size_ + 1];
+    memcpy(data_, str.data_, size_ + 1);
+  }
+
+  string(string &&str) {
+    size_ = str.size_;
+    cap_ = str.cap_;
+    data_ = str.data_;
+    str.data_ = nullptr;
+  }
+
+  ~string() { delete data_; }
+
   char &operator[](size_t index) { return data_[index]; }
 
   size_t size() { return size_; }
