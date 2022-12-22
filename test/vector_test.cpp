@@ -279,9 +279,31 @@ TEST(VectorTest, reaverse) {
   for (size_t i = 0; i < 20; i++) {
     EXPECT_EQ(vec2[i], A(i + 1));
   }
+  std::cout << "-------------" << (vec2[0] == A(0)) << std::endl;
   vec2.reverse();
   EXPECT_EQ(vec2.size(), 20);
   for (size_t i = 0; i < 20; i++) {
     EXPECT_EQ(vec2[i], A(20 - i));
   }
+}
+
+TEST(VecrorTest, remove) {
+  vector_t<A> vec;
+  for (size_t i = 0; i < 10; i++) {
+    vec.emplace_back(i + 1, 1);
+  }
+  auto iter = vec.begin();
+  iter = vec.erase(iter);
+  EXPECT_EQ(*iter, A(2, 1));
+  EXPECT_EQ(vec.size(), 9);
+  for (size_t i = 0; i < 9; i++) {
+    EXPECT_EQ(vec[i], A(i + 2, 1));
+  }
+  iter++;
+  for (size_t i = 0; i < 8; i++) {
+    iter = vec.erase(iter);
+  }
+  EXPECT_EQ(vec.size(), 1);
+  EXPECT_TRUE(vec.end() == iter);
+  EXPECT_EQ(vec[0], A(2, 1));
 }

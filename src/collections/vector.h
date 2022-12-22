@@ -77,6 +77,19 @@ class vector {
     return endIterator;
   }
 
+  Iterator erase(Iterator iter) {
+    (*iter).~T();
+    Iterator ret = iter;
+    Iterator pre = iter;
+    iter++;
+    while (iter != end()) {
+      *pre = *iter;
+      pre++;
+      iter++;
+    }
+    size_--;
+    return ret;
+  }
   T &operator[](size_t index) { return data_[index]; }
 
   const T &operator[](size_t index) const { return data_[index]; }

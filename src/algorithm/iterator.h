@@ -23,6 +23,12 @@ class iterator {
     return *this;
   }
 
+  iterator &operator=(const iterator &other) {
+    if (this == &other) return *this;
+    container_ = other.container_;
+    index_ = other.index_;
+    return *this;
+  }
   void print() { std::cout << "test......:" << index_ << std::endl; }
 
   bool operator==(const iterator &other) { return container_ == other.container_ && index_ == other.index_; }
