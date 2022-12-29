@@ -14,3 +14,14 @@ TEST(StringTest, Basic) {
     EXPECT_EQ(str[i], str_test[i]);
   }
 }
+
+TEST(StringTest, append) {
+  const char *str_test = "string_teststring_test";
+  string_t str1("string_test");
+  string_t str2("string_test");
+  str1.append(str2.begin(), str2.end());
+  EXPECT_EQ(str1.size(), strlen(str_test));
+  for (size_t i = 0; i < str1.size(); i++) {
+    EXPECT_EQ(str1[i], str_test[i]);
+  }
+}
